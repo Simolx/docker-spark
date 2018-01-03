@@ -1,5 +1,5 @@
 FROM centos:7
-MAINTAINER Dieudonne lx <simolx@163.com>
+MAINTAINER Dieudonne lx <lx.simon@yahoo.com>
 
 ENV TZ=Asia/Shanghai \
     LANG=en_US.UTF-8 \
