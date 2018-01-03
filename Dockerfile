@@ -9,9 +9,9 @@ ENV TZ=Asia/Shanghai \
     SPARK_VERSION=2.2.1 \
     SPARK_HADOOP_VERSION=2.7 \
     JAVA_HOME="/opt/distribute/jdk1.8.0_151" \
-    HADOOP_HOME="/opt/distribute/hadoop-${HADOOP_VERSION}"
+    HADOOP_HOME="/opt/distribute/hadoop-${HADOOP_VERSION}" \
     HADOOP_CONF_DIR="${HADOOP_HOME}/etc/hadoop" \
-    SPARK_HOME="/opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}"
+    SPARK_HOME="/opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}" \
     PATH="/opt/distribute/anaconda3/bin:$JAVA_HOME/bin:$PATH"
 
 RUN yum -y update && \
@@ -36,8 +36,7 @@ RUN curl -O https://repo.continuum.io/archive/Anaconda3-${ANACONDA_VERSION}-Linu
     rm -f Anaconda3-${ANACONDA_VERSION}-Linux-x86_64.sh
 RUN conda update -y conda \
     && conda update -y --all \
-    && pip install --upgrade pip setuptools \
-    && pip install kafka-python jieba \
+    && pip install --upgrade kafka-python jieba \
     && rm -rf ~/.cache/pip/*
 
 # add hadoop configuration
