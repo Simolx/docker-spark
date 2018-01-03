@@ -1,5 +1,5 @@
 FROM centos:7
-MAINTAINER lx,simolx@163.com
+MAINTAINER Dieudonne lx <simolx@163.com>
 
 ENV TZ=Asia/Shanghai \
     LANG=en_US.UTF-8 \
@@ -48,7 +48,7 @@ RUN curl -O -L https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSI
 RUN curl -O -L https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}.tgz \
     && tar -xzf spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}.tgz -C /opt/distribute \
     && rm -f spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}.tgz
-COPY conf/spark/* /opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}/conf
+COPY conf/spark/* /opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}/conf/
 
 RUN useradd elasticsearch \
     && useradd gdata
