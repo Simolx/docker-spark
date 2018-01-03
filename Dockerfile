@@ -1,5 +1,5 @@
 FROM centos:7
-MAINTAINER lx,simolx@163.com
+MAINTAINER Dieudonne lx <lx.simon@yahoo.com>
 
 ENV TZ=Asia/Shanghai \
     LANG=en_US.UTF-8 \
@@ -7,11 +7,11 @@ ENV TZ=Asia/Shanghai \
     ANACONDA_VERSION=5.0.1 \
     HADOOP_VERSION=2.7.2 \
     SPARK_VERSION=2.2.1 \
-    SPARK_HADOOP_VERSION=2.7 \
-    JAVA_HOME="/opt/distribute/jdk1.8.0_151" \
-    HADOOP_HOME="/opt/distribute/hadoop-${HADOOP_VERSION}"
-    HADOOP_CONF_DIR="${HADOOP_HOME}/etc/hadoop" \
-    SPARK_HOME="/opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}"
+    SPARK_HADOOP_VERSION=2.7 
+ENV JAVA_HOME="/opt/distribute/jdk1.8.0_151" \
+    HADOOP_HOME="/opt/distribute/hadoop-${HADOOP_VERSION}" \
+    HADOOP_CONF_DIR="/opt/distribute/hadoop-${HADOOP_VERSION}/etc/hadoop" \
+    SPARK_HOME="/opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}" \
     PATH="/opt/distribute/anaconda3/bin:$JAVA_HOME/bin:$PATH"
 
 RUN yum -y update && \
@@ -36,20 +36,19 @@ RUN curl -O https://repo.continuum.io/archive/Anaconda3-${ANACONDA_VERSION}-Linu
     rm -f Anaconda3-${ANACONDA_VERSION}-Linux-x86_64.sh
 RUN conda update -y conda \
     && conda update -y --all \
-    && pip install --upgrade pip setuptools \
-    && pip install kafka-python jieba \
+    && pip install --upgrade kafka-python jieba \
     && rm -rf ~/.cache/pip/*
 
 # add hadoop configuration
 RUN curl -O -L https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz \
-    && tar -C /opt/distribute -xzf hadoop-${HADOOP_VERSION}.tar.gz hadoop-${HADOOP_VERSION}/etc \
+    && tar -xzf hadoop-${HADOOP_VERSION}.tar.gz -C /opt/distribute \
     && rm -rf hadoop-${HADOOP_VERSION}.tar.gz 
 
 # install spark
 RUN curl -O -L https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}.tgz \
     && tar -xzf spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}.tgz -C /opt/distribute \
     && rm -f spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}.tgz
-COPY conf/spark/* /opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}/conf
+COPY conf/spark/* /opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}/conf/
 
 RUN useradd elasticsearch \
     && useradd gdata
