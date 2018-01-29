@@ -28,7 +28,7 @@ RUN mkdir /opt/distribute
 # install jdk
 RUN curl -o /opt/distribute/jdk8.tar.gz -v -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u161-b12/2f38c3b165be4555a1fa6e98c45e0808/jdk-8u161-linux-x64.tar.gz \
     && tar -xzf /opt/distribute/jdk8.tar.gz -C /opt/distribute \
-    && mv /opt/distribute/jdk1.8.0* /opt/distribute/jdk1.8.0 \
+    && mv /opt/distribute/jdk1.8.0* /opt/distribute/jdk1.8.0
 
 # install miniconda3
 RUN curl -o conda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
