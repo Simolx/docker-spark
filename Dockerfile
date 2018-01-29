@@ -36,7 +36,7 @@ RUN conda update -y conda \
 # install hadoop
 RUN curl -L https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz | tar -xzf - -C /opt/distribute
 # install spark
-RUN curl -O -L https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}.tgz | tar -xzf - -C /opt/distribute 
+RUN curl -L https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}.tgz | tar -xzf - -C /opt/distribute 
 COPY conf/spark/* /opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}/conf/
 RUN useradd elasticsearch \
     && useradd gdata
