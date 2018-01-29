@@ -4,7 +4,7 @@ MAINTAINER Dieudonne lx <lx.simon@yahoo.com>
 ENV TZ=Asia/Shanghai \
     LANG=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8 \
-    ANACONDA_VERSION=5.0.1 \
+#    ANACONDA_VERSION=5.0.1 \
     HADOOP_VERSION=2.7.2 \
     SPARK_VERSION=2.2.1 \
     SPARK_HADOOP_VERSION=2.7 
@@ -12,7 +12,7 @@ ENV JAVA_HOME="/opt/distribute/jdk1.8.0_151" \
     HADOOP_HOME="/opt/distribute/hadoop-${HADOOP_VERSION}" \
     HADOOP_CONF_DIR="/opt/distribute/hadoop-${HADOOP_VERSION}/etc/hadoop" \
     SPARK_HOME="/opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}" \
-    PATH="/opt/distribute/anaconda3/bin:$JAVA_HOME/bin:$PATH"
+    PATH="/opt/distribute/python3/bin:$JAVA_HOME/bin:$SPARK_HOME/bin:$PATH"
 
 RUN yum -y update && \
     yum install -y which openssh openssh-clients openssh-server bzip2 vim sudo unzip crontabs && \
@@ -31,12 +31,14 @@ RUN curl -O -v -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" ht
     && mv jdk-8u151-linux-x64.tar.gz /opt/distribute
 
 # install anaconda3
-RUN curl -O https://repo.continuum.io/archive/Anaconda3-${ANACONDA_VERSION}-Linux-x86_64.sh && \
-    bash Anaconda3-${ANACONDA_VERSION}-Linux-x86_64.sh -b -f -p /opt/distribute/anaconda3 && \
-    rm -f Anaconda3-${ANACONDA_VERSION}-Linux-x86_64.sh
+#RUN curl -O https://repo.continuum.io/archive/Anaconda3-${ANACONDA_VERSION}-Linux-x86_64.sh && \
+RUN curl -o conda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
+    bash conda.sh -b -f -p /opt/distribute/python3 && \
+    rm -f conda.sh
 RUN conda update -y conda \
-    && conda update -y --all \
+    && conda update --all -y \
     && pip install --upgrade kafka-python jieba \
+    && conda clean --all -y \
     && rm -rf ~/.cache/pip/*
 
 # add hadoop configuration
@@ -53,6 +55,6 @@ COPY conf/spark/* /opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOO
 RUN useradd elasticsearch \
     && useradd gdata
 WORKDIR /opt/baitu
-VOLUME [ "${HADOOP_CONF_DIR}", "/opt/baitu" ]
+VOLUME [ "${HADOOP_CONF_DIR}", "/opt/baitu", "/usr/lib/transwarp/scripts/rack_map.sh", "/etc/transwarp/conf/topology.data" ]
 EXPOSE 19090
 CMD ["/bin/bash"]
