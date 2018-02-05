@@ -41,6 +41,6 @@ COPY conf/spark/* /opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOO
 RUN useradd elasticsearch \
     && useradd gdata
 WORKDIR /opt/baitu
-VOLUME [ "${HADOOP_CONF_DIR}", "/opt/baitu", "/usr/lib/transwarp/scripts/rack_map.sh", "/etc/transwarp/conf/topology.data" ]
+VOLUME [ "${HADOOP_CONF_DIR}", "/opt/baitu", "/usr/lib/transwarp/scripts", "/etc/transwarp/conf" ]
 EXPOSE 19090
 CMD ["/bin/bash"]
