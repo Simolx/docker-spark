@@ -13,7 +13,7 @@ ENV JAVA_HOME="/opt/distribute/jdk1.8.0" \
     SPARK_HOME="/opt/distribute/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}"
 ENV PATH="/opt/distribute/python3/bin:$JAVA_HOME/bin:$SPARK_HOME/bin:$PATH"
 RUN yum -y update && \
-    yum install -y which openssh openssh-clients openssh-server bzip2 vim sudo unzip crontabs && \
+    yum install -y which openssh openssh-clients openssh-server bzip2 vim sudo unzip && \
     yum clean all && \
     rm -rf /var/cache/yum
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime
@@ -28,10 +28,8 @@ RUN curl -o /opt/distribute/jdk8.tar.gz -v -j -k -L -H "Cookie: oraclelicense=ac
 RUN curl -o conda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
     bash conda.sh -b -f -p /opt/distribute/python3 && \
     rm -f conda.sh
-RUN conda update -y conda \
-    && conda update --all -y \
+RUN conda update -y --all \
     && conda install -y requests \
-    && pip install --upgrade kafka-python jieba \
     && conda clean --all -y \
     && rm -rf ~/.cache/pip/*
 # install hadoop
