@@ -39,10 +39,12 @@ RUN conda update -y --all \
 #    && rm -rf ~/.cache/pip/*
 # install hadoop
 RUN curl -L https://archive.apache.org/dist/hadoop/core/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz | tar -xzf - -C /opt \
-    && mv /opt/hadoop-* ${HADOOP_HOME}
+    && mv /opt/hadoop-* ${HADOOP_HOME} \
+    && chmod -x ${HADOOP_HOME}/bin/*.cmd ${HADOOP_HOME}/sbin/*.cmd
 # install spark
 RUN curl -L https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${SPARK_HADOOP_VERSION}.tgz | tar -xzf - -C /opt \
-    && mv /opt/spark-* ${SPARK_HOME}
+    && mv /opt/spark-* ${SPARK_HOME} \
+    && chmod -x ${SPARK_HOME}/bin/*.cmd
 COPY conf/spark/* ${SPARK_HOME}/conf/
 RUN useradd elasticsearch \
     && useradd gdata \
