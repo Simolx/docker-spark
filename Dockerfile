@@ -25,7 +25,7 @@ RUN curl -o conda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-Linux
     rm -f conda.sh
 ENV PATH=/usr/local/python3/bin:$PATH
 RUN conda update -y --all \
-    && conda install -y python=3.6 requests \
+    && conda install -y requests \
     && conda clean --all -y \
     && rm -rf ~/.cache/pip/*
 
